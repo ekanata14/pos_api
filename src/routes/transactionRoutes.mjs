@@ -26,6 +26,15 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.get("/date/:date", (req, res) => {
+    const dateTransaction = req.params.date;
+    const sql = `SELECT * FROM ${table} WHERE date_transaction = ?`;
+    connection.query(sql, [dateTransaction], (err, results, fields) => {
+        checkError(err);
+        res.json(results);
+    });
+});
+
 router.post("/in", (req, res) => {
     const {categoryId, itemId, supplierId, userId, nameItem, itemIn, itemOut, price, sellPrice, dateTransaction} = req.body;
     const sql = `INSERT INTO ${table} (category_id, item_id, supplier_id, user_id, name_item, item_in, item_out, price, sell_price, date_transaction)
